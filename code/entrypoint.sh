@@ -16,8 +16,10 @@ done
 # ./wait-for-it.sh -t 80 mysql1:3306 || exit 1
 
 # ./wait-for-it.sh -t 80 mysql2:3306 || exit 1
-
+pytest test_database_pre.py
 echo '______________________'
 echo '______________________'
 echo '______________________'
+echo
+echo
 python main.py
