@@ -1,4 +1,5 @@
 import os
+import time
 import mysql.connector
 
 
@@ -33,13 +34,18 @@ try:
     cursor1.execute(show_table_query)
     records = cursor1.fetchall()
     print("\n\n________________\n")
-
+    
+    start = time.time()
     for record in records:
         insert_to_table_query = """INSERT INTO employees_copy.titles(
         emp_no, title, from_date, to_date) VALUES ('{}','{}','{}','{}');""".format(
             record[0], record[1], record[2], record[3])
         cursor2.execute(insert_to_table_query)
     connection2.commit()
+    end = time.time()
+    print("Elapsed time is {}sec".format(end - start))
+    print("\n________________\n\n")
+
 
 except mysql.connector.Error as error:
     print("Error: {}".format(error))
