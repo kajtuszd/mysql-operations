@@ -12,12 +12,8 @@ do
   sleep 5
 done
 
-# chmod +x wait-for-it.sh
-# ./wait-for-it.sh -t 80 mysql1:3306 || exit 1
-
-# ./wait-for-it.sh -t 80 mysql2:3306 || exit 1
-
-echo '______________________'
-echo '______________________'
-echo '______________________'
+pytest test_database_pre.py
+echo '____________________________________'
 python main.py
+echo '____________________________________'
+pytest test_database_post.py
