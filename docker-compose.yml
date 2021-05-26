@@ -33,7 +33,7 @@ services:
 
   app:
     container_name: app
-    restart: unless-stopped
+    # restart: unless-stopped
     build: .
     volumes:
       - ./code:/code
