@@ -13,10 +13,7 @@ do
 done
 
 pytest test_database_pre.py
-echo '______________________'
-echo '______________________'
-echo '______________________'
-echo
-echo
+echo '____________________________________'
 python main.py
+echo '____________________________________'
 pytest test_database_post.py
