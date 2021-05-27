@@ -58,7 +58,7 @@ def insert_table_to_database(records, cursor, connection):
     cursor.executemany(query, params)
     connection.commit()
     end_insert = time.time()
-    print("Insert time is {}".format(end_insert - start_insert))
+    print("Insert time is {}sec".format(end_insert - start_insert))
 
 
 def copy_table_to_database(cursor1, cursor2, connection2):
@@ -69,7 +69,7 @@ def copy_table_to_database(cursor1, cursor2, connection2):
     records = get_records_from_database(cursor1)
     insert_table_to_database(records, cursor2, connection2)
     end_copy = time.time()
-    print("Copy time is {}".format(end_copy - start_copy))
+    print("Copy time is {}sec".format(end_copy - start_copy))
 
 
 def main():
