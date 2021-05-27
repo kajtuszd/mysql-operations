@@ -4,7 +4,7 @@ import mysql.connector
 
 
 def connect_to_databases():
-    ''' Connect to given databases. Return connections. '''
+    """ Connect to given databases. Return connections. """
     connection1 = mysql.connector.connect(host=os.environ['HOST_1'],
                                           database=os.environ['DATABASE_1'],
                                           user=os.environ['USER_1'],
@@ -17,10 +17,10 @@ def connect_to_databases():
 
 
 def extract_create_table_query(cursor):
-    '''
+    """
     Connect to first database and return SQL CREATE TABLE query
     in order to use it while target database creation.
-    '''
+    """
     create_table_query = ""
     show_create_table_query = """SHOW CREATE TABLE employees.titles;"""
     cursor.execute(show_create_table_query)
@@ -31,7 +31,7 @@ def extract_create_table_query(cursor):
 
 
 def disconnect_from_databases(connection1, connection2, cursor1, cursor2):
-    ''' Terminate connections with databases. '''
+    """ Terminate connections with databases. """
     if connection1.is_connected():
         cursor1.close()
         connection1.close()
@@ -43,16 +43,17 @@ def disconnect_from_databases(connection1, connection2, cursor1, cursor2):
 
 
 def get_records_from_database(cursor):
-    ''' Return table records from given database. '''
+    """ Return table records from given database. """
     show_table_query = """SELECT * FROM employees.titles"""
     cursor.execute(show_table_query)
     return cursor.fetchall()
 
 
 def insert_table_to_database(records, cursor, connection):
-    ''' Insert all records to target database. '''
+    """ Insert all records to target database. """
     start_insert = time.time()
-    query = """INSERT INTO employees_copy.titles(emp_no, title, from_date, to_date) VALUES (%s, %s, %s, %s);"""
+    query = """INSERT INTO employees_copy.titles(emp_no, title, from_date, 
+    to_date) VALUES (%s, %s, %s, %s); """
     params = [(record[0], record[1], record[2], record[3]) for record in records]
     cursor.executemany(query, params)
     connection.commit()
@@ -61,7 +62,7 @@ def insert_table_to_database(records, cursor, connection):
 
 
 def copy_table_to_database(cursor1, cursor2, connection2):
-    ''' Copy table to target database. '''
+    """ Copy table to target database. """
     start_copy = time.time()
     create_table_query = extract_create_table_query(cursor1)
     cursor2.execute("""{}""".format(create_table_query))
