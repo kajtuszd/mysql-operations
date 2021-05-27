@@ -4,6 +4,7 @@ services:
   mysql1:
     image: mysql:5.6.26
     container_name: employees
+    command: --max_allowed_packet=1000000000
     environment:
      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_1}
      MYSQL_USER: ${USER_1}
@@ -19,6 +20,7 @@ services:
   mysql2:
     image: mysql:5.6.26
     container_name: employees_copy
+    command: --max_allowed_packet=1000000000
     environment:
      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD_2}
      MYSQL_USER: ${USER_2}
@@ -33,7 +35,6 @@ services:
 
   app:
     container_name: app
-    # restart: unless-stopped
     build: .
     volumes:
       - ./code:/code

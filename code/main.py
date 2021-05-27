@@ -17,7 +17,7 @@ def connect_to_databases():
 
 
 def extract_create_table_query(cursor):
-    ''' 
+    '''
     Connect to first database and return SQL CREATE TABLE query
     in order to use it while target database creation.
     '''
@@ -51,23 +51,24 @@ def get_records_from_database(cursor):
 
 def insert_table_to_database(records, cursor, connection):
     ''' Insert all records to target database. '''
-    start = time.time()
-    for record in records:
-        insert_to_table_query = """INSERT INTO employees_copy.titles(emp_no, 
-        title, from_date, to_date) VALUES ('{}','{}','{}','{}');""".format(
-            record[0], record[1], record[2], record[3])
-        cursor.execute(insert_to_table_query)
+    start_insert = time.time()
+    query = """INSERT INTO employees_copy.titles(emp_no, title, from_date, to_date) VALUES (%s, %s, %s, %s);"""
+    params = [(record[0], record[1], record[2], record[3]) for record in records]
+    cursor.executemany(query, params)
     connection.commit()
-    end = time.time()
-    print("Elapsed time is {}".format(end - start))
+    end_insert = time.time()
+    print("Insert time is {}".format(end_insert - start_insert))
 
 
 def copy_table_to_database(cursor1, cursor2, connection2):
     ''' Copy table to target database. '''
+    start_copy = time.time()
     create_table_query = extract_create_table_query(cursor1)
     cursor2.execute("""{}""".format(create_table_query))
     records = get_records_from_database(cursor1)
     insert_table_to_database(records, cursor2, connection2)
+    end_copy = time.time()
+    print("Copy time is {}".format(end_copy - start_copy))
 
 
 def main():
